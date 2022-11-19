@@ -1,0 +1,8 @@
+{
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": ["--line-length", "79", "--experimental-string-processing"],
+    "python.formatting.blackPath": "/home/allifizzuddin/anaconda3/envs/scrapy_v1/bin/black",
+}
