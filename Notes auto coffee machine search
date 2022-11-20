@@ -6,7 +6,9 @@ data.search.searchResult.itemStacks[0].itemsV2[0].availabilityStatusV2.value
 data.search.searchResult.itemStacks[0].itemsV2[0].canonicalUrl
 data.search.searchResult.itemStacks[0].itemsV2[0].averageRating
 data.search.searchResult.itemStacks[0].itemsV2[0].numberOfReviews
-
+data.search.searchResult.itemStacks[0].itemsV2[0]
+data.search.searchResult.itemStacks[0].itemsV2[0].name
+data.search.searchResult.itemStacks[0].itemsV2[50].name
 
 CURL
 

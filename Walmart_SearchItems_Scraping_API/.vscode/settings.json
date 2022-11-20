@@ -5,4 +5,5 @@
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": ["--line-length", "79", "--experimental-string-processing"],
     "python.formatting.blackPath": "/home/allifizzuddin/anaconda3/envs/scrapy_v1/bin/black",
+    "python.analysis.typeCheckingMode": "basic",
 }
