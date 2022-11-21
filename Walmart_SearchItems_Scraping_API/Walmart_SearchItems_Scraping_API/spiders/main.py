@@ -2,15 +2,19 @@ import scrapy
 from scrapy import Request
 import json
 import logging
+from scrapy.utils.log import configure_logging
 
 
 class MainSpider(scrapy.Spider):
     name = "main"
+    configure_logging(
+        install_root_handler=False
+    )
     logging.basicConfig(
         filename="Logfile.log",
         format="%(asctime)s - %(levelname)s - %(message)s",
         filemode='w',
-        level=logging.ERROR,
+        level=logging.DEBUG,
     )
 
     """
@@ -25,9 +29,6 @@ class MainSpider(scrapy.Spider):
     def start_requests(self):
         for i in range(1, 26):
             try:
-                print('\n')
-                print('PAGE {}'.format(i))
-                print('\n')
                 request = Request(
                         url=self.url.format(i),
                         # url=self.url,
@@ -59,12 +60,9 @@ class MainSpider(scrapy.Spider):
         data = raw_data['props']['pageProps']['initialData']['searchResult']['itemStacks'][0]['items']
         for x in range(len(data)):
             try:
-                print('\n')
-                print('Item {}'.format(x))
-                print('\n')
                 items = {
                     'Name': data[x]['name'],
-                    'Price': data[x]['price'],
+                    'Price USD': data[x]['price'],
                     'Availability': data[x]['availabilityStatusDisplayValue'],
                     'Url Link': 'https://www.walmart.com'+data[x]['canonicalUrl'],
                 }
