@@ -2,11 +2,29 @@ import scrapy
 from scrapy import Request
 import json
 # from scrapy.shell import inspect_response
+import logging
+from scrapy.utils.log import configure_logging
+
+
+# logger = logging.getLogger('scrapy')
+# logger.setLevel(logging.DEBUG)
 
 
 class MainSpider(scrapy.Spider):
     name = "main"
-    ## API
+    """ API """
+    configure_logging(
+        # settings={
+        #     'LOG_FILE': 'Logfile.log',
+        #     'LOG_STDOUT': True,
+        # },
+        install_root_handler=False)
+    logging.basicConfig(
+        filename="Logfile.log",
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        filemode='w',
+        level=logging.ERROR,
+    )
     # url = 'https://www.walmart.com/orchestra/snb/graphql/Search/0d430070b29087d0816fdde9b3007bc0d6142d39a2537d8a1fd02cb005ea23f8/search?variables=%7B%22id%22%3A%22%22%2C%22affinityOverride%22%3A%22default%22%2C%22dealsId%22%3A%22%22%2C%22query%22%3A%22automatic%20espresso%20machine%22%2C%22page%22%3A{0}%2C%22prg%22%3A%22desktop%22%2C%22catId%22%3A%22%22%2C%22facet%22%3A%22%22%2C%22sort%22%3A%22best_match%22%2C%22rawFacet%22%3A%22%22%2C%22seoPath%22%3A%22%22%2C%22ps%22%3A40%2C%22ptss%22%3A%22%22%2C%22trsp%22%3A%22%22%2C%22beShelfId%22%3A%22%22%2C%22recall_set%22%3A%22%22%2C%22module_search%22%3A%22%22%2C%22min_price%22%3A%22%22%2C%22max_price%22%3A%22%22%2C%22storeSlotBooked%22%3A%22%22%2C%22additionalQueryParams%22%3A%7B%22hidden_facet%22%3Anull%2C%22translation%22%3Anull%2C%22isMoreOptionsTileEnabled%22%3Atrue%7D%2C%22searchArgs%22%3A%7B%22query%22%3A%22automatic%20espresso%20machine%22%2C%22cat_id%22%3A%22%22%2C%22prg%22%3A%22desktop%22%2C%22facet%22%3A%22%22%7D%2C%22fitmentFieldParams%22%3A%7B%22powerSportEnabled%22%3Atrue%7D%2C%22fitmentSearchParams%22%3A%7B%22id%22%3A%22%22%2C%22affinityOverride%22%3A%22default%22%2C%22dealsId%22%3A%22%22%2C%22query%22%3A%22automatic%20espresso%20machine%22%2C%22page%22%3A{0}%2C%22prg%22%3A%22desktop%22%2C%22catId%22%3A%22%22%2C%22facet%22%3A%22%22%2C%22sort%22%3A%22best_match%22%2C%22rawFacet%22%3A%22%22%2C%22seoPath%22%3A%22%22%2C%22ps%22%3A40%2C%22ptss%22%3A%22%22%2C%22trsp%22%3A%22%22%2C%22beShelfId%22%3A%22%22%2C%22recall_set%22%3A%22%22%2C%22module_search%22%3A%22%22%2C%22min_price%22%3A%22%22%2C%22max_price%22%3A%22%22%2C%22storeSlotBooked%22%3A%22%22%2C%22additionalQueryParams%22%3A%7B%22hidden_facet%22%3Anull%2C%22translation%22%3Anull%2C%22isMoreOptionsTileEnabled%22%3Atrue%7D%2C%22searchArgs%22%3A%7B%22query%22%3A%22automatic%20espresso%20machine%22%2C%22cat_id%22%3A%22%22%2C%22prg%22%3A%22desktop%22%2C%22facet%22%3A%22%22%7D%2C%22cat_id%22%3A%22%22%2C%22_be_shelf_id%22%3A%22%22%7D%2C%22enableFashionTopNav%22%3Afalse%2C%22enablePortableFacets%22%3Atrue%2C%22enableFacetCount%22%3Atrue%2C%22fetchMarquee%22%3Atrue%2C%22fetchSkyline%22%3Atrue%2C%22fetchGallery%22%3Afalse%2C%22fetchSbaTop%22%3Atrue%2C%22tenant%22%3A%22WM_GLASS%22%2C%22enableFlattenedFitment%22%3Afalse%2C%22pageType%22%3A%22SearchPage%22%7D'
 
     # headers = {
@@ -82,22 +100,28 @@ class MainSpider(scrapy.Spider):
     """
     url = 'https://www.walmart.com/search?q=automatic+espresso+machine&affinityOverride=default&page={}'
 
-    headers ={
+    headers = {
         "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52",
     }
 
+    # logger.debug('Test loggin')
+
     def start_requests(self):
-        for i in range(1,26):
-            print('\n')
-            print('PAGE {}'.format(i))
-            print('\n')
-            request = Request(
-                    url=self.url.format(i),
-                    # url=self.url,
-                    headers=self.headers,
-                    callback=self.parse
-            )
-            yield request
+        for i in range(1, 26):
+            try:
+                print('\n')
+                print('PAGE {}'.format(i))
+                print('\n')
+                request = Request(
+                        url=self.url.format(i),
+                        # url=self.url,
+                        headers=self.headers,
+                        callback=self.parse
+                )
+                yield request
+            except Exception as e:
+                # logger.debug("Page {} has {}".format(i, e))
+                self.logger.error("Page {} has error {}".format(i, e))
 
     def parse(self, response):
         """
@@ -117,18 +141,21 @@ class MainSpider(scrapy.Spider):
         #     json.dump(raw_data, outfile, indent=4, sort_keys=True)
 
         data = raw_data['props']['pageProps']['initialData']['searchResult']['itemStacks'][0]['items']
-        for i in range(len(data)):
-            print('\n')
-            print('Item {}'.format(i))
-            print('\n')
-            items = {
-                'Name' : data[i]['name'],
-                'Price' : data[i]['price'],
-                'Availability' :data[i]['availabilityStatusDisplayValue'],
-                'Url Link' : 'https://www.walmart.com'+data[i]['canonicalUrl'],
-            }
-            yield items
-
+        for x in range(len(data)):
+            try:
+                print('\n')
+                print('Item {}'.format(x))
+                print('\n')
+                items = {
+                    'Name': data[x]['name'],
+                    'Price': data[x]['price'],
+                    'Availability': data[x]['availabilityStatusDisplayValue'],
+                    'Url Link': 'https://www.walmart.com'+data[x]['canonicalUrl'],
+                }
+                yield items
+            except Exception as e:
+                # logger.debug("Item {} has {}".format(x, e))
+                self.logger.error("Item {} has error {}".format(x, e))
         # for i in range(len())
         # raw_data = response.body
         # data = json.loads(raw_data)
