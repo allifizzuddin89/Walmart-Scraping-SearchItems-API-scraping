@@ -15,7 +15,7 @@
 - Run the main.py in the working directory.
 - Run <scrapy runspider main.py> in the terminal in the working directory
   OR simply run <scrapy crawl main.py>
-- Add --O walmart_coffee.csv in terminal to produce the csv file e.g. 'scrapy runspider main.py -O walmart_coffee.csv'
+- Add '-O walmart_coffee.csv' in terminal to produce the csv file e.g. 'scrapy runspider main.py -O walmart_coffee.csv'
 
 ### Install environment
 - Refer [CONDA Environment Installation](https://docs.anaconda.com/anaconda/install/)
