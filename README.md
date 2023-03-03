@@ -1,5 +1,5 @@
 # Walmart-Scraping-SearchItems-API-scraping
-- Web scraping via hidden API
+- Web scraping via hidden API in walmart.com
 - Extracting search items into a list.
 - Scraping framework : Scrapy
 - Scraping through API, extracting data from JSON
