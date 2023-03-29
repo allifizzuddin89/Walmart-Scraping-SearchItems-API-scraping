@@ -4,6 +4,9 @@
 - Scraping framework : Scrapy
 - Scraping through API, extracting data from JSON
 
+# Result
+- Please see the generated scraped data in [result](https://github.com/allifizzuddin89/Walmart-Scraping-SearchItems-API-scraping/blob/main/Walmart_SearchItems_Scraping_API/Walmart_SearchItems_Scraping_API/spiders/Walmart_coffee_machine.csv)
+
 ## Requirement : 
 - Scrapy 2.7.1
 - Python 3.7 or above
